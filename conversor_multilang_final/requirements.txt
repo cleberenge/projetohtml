@@ -1,0 +1,8 @@
+Flask
+Pillow
+python-docx
+pdf2docx
+PyMuPDF
+docx2pdf
+PyPDF2
+gunicorn

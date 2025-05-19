@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Arquivos</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Conversor de Arquivos</h2>
+    <form action="/convert" method="POST" enctype="multipart/form-data">
+      <input type="file" name="files" multiple required><br>
+      <select name="conversion_type" required>
+        <option value="png2jpg">PNG → JPG</option>
+        <option value="jpg2pdf">JPG → PDF</option>
+        <option value="pdf2jpg">PDF → JPG</option>
+        <option value="doc2pdf">DOCX → PDF</option>
+        <option value="pdf2doc">PDF → DOCX</option>
+        <option value="video2mp3">Vídeo → MP3</option>
+        <option value="compress_video">Comprimir Vídeo</option>
+      </select><br>
+      <button type="submit">Converter</button>
+    </form>
+  </div>
+</body>
+</html>
