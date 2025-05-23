@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Arquivos</title>
+  <style>
+    body {
+      background-color: #f7f9fc;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #progress-container {
+      display: none;
+      margin-top: 20px;
+    }
+    progress {
+      width: 100%;
+      height: 20px;
+    }
+    #percent {
+      display: block;
+      margin-top: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Conversor de Arquivos</h2>
+    <form id="uploadForm">
+      <input type="file" name="files" multiple required>
+      <select name="conversion_type" required>
+        <option value="png2jpg">PNG → JPG</option>
+        <option value="jpg2pdf">JPG → PDF</option>
+        <option value="pdf2jpg">PDF → JPG</option>
+        <option value="doc2pdf">DOCX → PDF</option>
+        <option value="pdf2doc">PDF → DOCX</option>
+        <option value="video2mp3">Vídeo → MP3</option>
+        <option value="compress_video">Compressão de Vídeo</option>
+      </select>
+      <button type="submit">Converter</button>
+    </form>
+    <div id="progress-container">
+      <progress id="progressBar" value="0" max="100"></progress>
+      <span id="percent">0%</span>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progress-container');
+    const percentText = document.getElementById('percent');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('POST', '/convert', true);
+
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          progressBar.value = percent;
+          percentText.innerText = percent + '%';
+          progressContainer.style.display = 'block';
+        }
+      };
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const blob = new Blob([xhr.response], { type: 'application/zip' });
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = 'converted_files.zip';
+          link.click();
+        } else {
+          alert('Erro ao converter arquivos.');
+        }
+        progressContainer.style.display = 'none';
+        progressBar.value = 0;
+        percentText.innerText = '0%';
+      };
+
+      xhr.responseType = 'blob';
+      xhr.send(formData);
+    });
+  </script>
+</body>
+</html>
