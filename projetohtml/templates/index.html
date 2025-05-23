@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Compressor de Vídeo</title>
+    <meta charset="UTF-8">
+    <title>Conversor JPG</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2em; text-align: center; }
-        form { margin-top: 2em; }
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f7f7f7; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; }
+        input[type="file"] { display: block; margin: 1rem auto; }
+        button { display: block; width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #45a049; }
     </style>
 </head>
 <body>
-    <h1>Compressor de Vídeo</h1>
-    <form action="/compress" method="post" enctype="multipart/form-data">
-        <input type="file" name="video" required>
-        <button type="submit">Comprimir</button>
-    </form>
+    <div class="container">
+        <h1>Conversor de Imagens para JPG</h1>
+        <form action="/convert" method="post" enctype="multipart/form-data">
+            <input type="file" name="images" multiple required>
+            <button type="submit">Converter e Baixar ZIP</button>
+        </form>
+    </div>
 </body>
 </html>
